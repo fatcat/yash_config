@@ -13,7 +13,7 @@ One of the more important changes to V3 is that it now resembles more a `Hash` s
 ## Installation
 
 ```bash
-$ git clone https://github.com/yash_config
+$ git clone https://github.com/fatcat/yash_config.git
 $ gem build yash_config.gemspec
 $ gem install yash_config
 ```
