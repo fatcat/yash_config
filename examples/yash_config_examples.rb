@@ -4,6 +4,7 @@
 require_relative '../lib/yash_config'
 
 config_file = "#{ENV['HOME']}/yash_config.yaml"
+new_config_file = "#{ENV['HOME']}/new-config.yaml"
 
 config = YashConfig.new({ 
 		:config_file => config_file,
@@ -11,10 +12,6 @@ config = YashConfig.new({
    	:integer_value => 0,
    	:boolean_value => true
 	})
-
-config.each do |key, value|
-	puts "#{key} #{value}"
-end
 
 puts File.open(config[:config_file]).readlines
 puts "Original value: " + config[:string_value]
@@ -30,5 +27,7 @@ config.clear_configuration
 puts File.open(config[:config_file]).readlines
 puts
 puts "Change filename"
-config[:config_file] = "#{ENV['HOME']}/new-config.yaml"
+config[:config_file] = new_config_file
 puts File.open(config[:config_file]).readlines
+
+FileUtils.rm(new_config_file)

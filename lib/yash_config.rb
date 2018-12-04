@@ -6,15 +6,8 @@ class YashConfig
 
 	def initialize(options)
 		@config = options if sanity_check(options)
-	
-		if config_file_exists? then
-			existing_config = open_config_file
-			@config.merge!(existing_config)
-			write_config
-		else
-			create_config_file
-			write_config
-		end
+		@config.merge!(read_config)
+		write_config
 	end
 
 	def [](key)
@@ -23,8 +16,9 @@ class YashConfig
 
 	def []=(key, value)
 		begin
-			FileUtils.mv(@config[:config_file], value) if key == :config_file
+			FileUtils.mv(@config[:config_file], value) if check_key(key)
 		rescue Errno::EACCES
+			puts "Can't change config file name because new file not writable"
 			raise Errno::EACCES
 		end
 		@config[key] = value
@@ -38,7 +32,7 @@ class YashConfig
 	end
 
 	def delete(key)
-		raise "you cannot delete the key \":config_file\"" if key == :config_file
+		raise "you cannot delete the key \":config_file\"" if check_key(key)
 		@config.delete(key)
 		write_config
 	end
@@ -58,16 +52,20 @@ private
 
 	def read_config
 		config = {}
-		begin
-			config_s = YAML::Store.new(@config[:config_file])
-			config_s.transaction do
-				config_s.roots.each do |root|
-        			config[root] = config_s[root]
+		if config_file_exists? then
+			begin
+				config_s = YAML::Store.new(@config[:config_file])
+				config_s.transaction do
+					config_s.roots.each do |root|
+        				config[root] = config_s[root]
+					end
 				end
+			rescue PStore::Error
+				puts "#{@config[:config_file]} is not in yaml format"
+				raise PStore::Error
 			end
-		rescue PStore::Error
-			puts "#{@config[:config_file]} is not in yaml format"
-			raise PStore::Error
+		else
+			create_config_file
 		end
 		config
 	end
@@ -85,6 +83,10 @@ private
 
 	def config_file_exists?
 		File.exists?(@config[:config_file])	
+	end
+
+	def check_key(key)
+		key == :config_file
 	end
 
 	def create_config_file_path(dir)
@@ -106,11 +108,6 @@ private
 			puts "Cannot create file: \"#{@config[:config_file]}\", no permission"
 			raise Errno::EACCES
 		end
-	end
-
-	def open_config_file
-		config = read_config
-		@config.merge!(config)
 	end
 
 	def sanity_check(options)
