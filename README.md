@@ -1,14 +1,12 @@
 # yash_config
 
-yash_config allows simple creation and management of configuration files. "yash" is a portmanteau of YAML and Hash, as those are the underlying storage and manipulation mechanisms, respectively. i
+yash_config allows simple creation and management of configuration files. "yash" is a portmanteau of YAML and Hash, as those are the underlying storage and manipulation mechanisms, respectively.
 
 The yaml store actually uses Ruby's native 'pstore' capability, so yash_config has no dependencies outside Ruby's standard library.
 
 yash_config's overriding concern is brain-dead simplicity, not feature exhaustion. If you need to keep a simple, persistent configuration for a Ruby script but want the learning curve to be negligible yash_config is what you want. If you understand Ruby hashes then you understand yash_config.
 
 Instantiate a yash_config object with a Hash and a matching yaml file is created at the location you specify. Then use hash-like syntax to add, change and delete keys and values from the configuration. Each time you change the config it is synchronously written to disk. The yaml configuration file can be edited by hand and read back into a yash_config object. 
-
-One of the more important changes to V3 is that it now resembles more a `Hash` style interface. You can use `[]`, `fetch`, `each`, etc... Actually the hash notation is a bit more robust since the dot notation won't work for a few property names (a few public methods from `Configatron::Store` itself).
 
 ## Installation
 
