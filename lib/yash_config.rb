@@ -32,7 +32,7 @@ class YashConfig
 	end
 
 	def delete(key)
-		raise "you cannot delete the key \":config_file\"" if check_key(key)
+		raise "The key \":config_file\" may not be deleted" if check_key(key)
 		@config.delete(key)
 		write_config
 	end
