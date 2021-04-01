@@ -15,6 +15,6 @@ Once you have a yash_config object then you simply use hash-like syntax to add, 
     "lib/yash_config.rb"
   ]
   s.authors     = ["Daniel L. McNulty"]
-  s.license       = '0BSD'
+  s.license       = 'BSD-3-Clause'
   s.require_paths = ["lib"]
 end
