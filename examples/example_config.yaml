@@ -1,0 +1,7 @@
+---
+:config_file: example_config.yaml
+:string_value: some string value
+:integer_value: 0
+:another_integer_value: '0123456789'
+:boolean_value: true
+:another_boolean_value: false

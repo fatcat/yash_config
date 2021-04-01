@@ -1,0 +1,8 @@
+---
+:config_file: "/tmp/d20210401-4087-ldtg20/yash_config.yaml"
+:string_value: zero
+:integer_value: 0
+:nested:
+  :nested_val1: thing1
+  :nested_val2: thing2
+:boolean_value: true
