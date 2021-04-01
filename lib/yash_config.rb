@@ -57,7 +57,7 @@ private
 				config_s = YAML::Store.new(@config[:config_file])
 				config_s.transaction do
 					config_s.roots.each do |root|
-        				config[root] = config_s[root]
+        		config[root] = config_s[root]
 					end
 				end
 			rescue PStore::Error
@@ -75,14 +75,14 @@ private
 		config_s = YAML::Store.new(@config[:config_file])
 		@config.each do |key, val|
 			config_s.transaction do
-         	config_s[key] = val
+      	config_s[key] = val
 				config_s.commit
-      	end  
+      end  
 		end
 	end
 
 	def config_file_exists?
-		File.exists?(@config[:config_file])	
+		File.exist?(@config[:config_file])	
 	end
 
 	def check_key(key)
@@ -123,5 +123,4 @@ private
 			true
 		end
 	end
-
 end
