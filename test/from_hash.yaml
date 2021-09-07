@@ -1,0 +1,3 @@
+---
+:config_file: from_hash.yaml
+:test_parameter: test_value
