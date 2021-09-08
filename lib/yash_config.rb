@@ -115,6 +115,9 @@ private
 			raise "Options must be a Hash object"
 		elsif options[:config_file] == nil
 			raise "Configuration filename must be supplied: Configuration.new({:config_file => \"path/to/file\"})"
+		elsif !File.writable?(options[:config_file])
+			puts "Configuration file is not writable"
+			raise Errno::EACCES
 		elsif Gem.win_platform?
 			raise "This library is not tested on Windows and probably won't work"
 		elsif Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0.0')
