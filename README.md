@@ -6,7 +6,9 @@ yash_config's overriding concern is brain-dead simplicity, not feature exhaustio
 
 You can instantiate a yash_config object with a Hash or with a yaml file. If you instantiate with a hash a matching yaml file is created at the location you specify.
 
-Once you have a yash_config object then you simply use hash-like syntax to add, change and delete keys and values from the configuration. Each time you change the config it is synchronously written to disk. The file can be edited by hand and read back into a yash_config object. 
+Once you have a yash_config object then you simply use hash-like syntax to read, add, change and delete keys and values from the configuration. Each time you change the config it is synchronously written to disk. The file can be edited by hand and read back into a yash_config object. 
+
+Integrating Ruby's [OptParse](https://github.com/ruby/optparse) library for command line option handling is easy. See the examples.
 
 ## Installation
 
