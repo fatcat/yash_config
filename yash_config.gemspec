@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{yash_config}
-  s.version = "1.1.0"
+  s.version = "1.2.0"
   s.date = %q{2021-04-02}
   s.summary = %q{Extremely simple library to create and manage configuration files.}
   s.description = %q{ yash_config allows simple creation and management of configuration files. "yash" is a portmanteau of YAML and Hash, as those are the underlying storage and manipulation mechanisms, respectively. 
