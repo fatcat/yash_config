@@ -38,6 +38,10 @@ opt_parser = OptionParser.new do |opts|
 
 end.parse!(into: options)   # Force OptParse to produce a Hash
 
+if !options.has_key?(:config_file) then
+	raise "Must specify a filename: (-c <filename>)"
+end
+
 p "Options: " + options.to_s if options[:debug]
 
 config = YashConfig.new(options)
