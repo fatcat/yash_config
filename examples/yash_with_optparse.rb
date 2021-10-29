@@ -36,7 +36,7 @@ opt_parser = OptionParser.new do |opts|
   		exit
   	end
 
-end.parse!(into: options)   # Force OptParse to produce a Hash
+end.parse!(into: {})   # Force OptParse to produce a Hash
 
 if !options.has_key?(:config_file) then
 	raise "Must specify a filename: (-c <filename>)"
