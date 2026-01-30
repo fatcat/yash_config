@@ -1,0 +1,4 @@
+---
+:config_file: types_boolean.yaml
+:flag_true: true
+:flag_false: false

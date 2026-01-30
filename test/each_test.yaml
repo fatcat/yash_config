@@ -1,0 +1,4 @@
+---
+:config_file: each_test.yaml
+:param1: value1
+:param2: value2

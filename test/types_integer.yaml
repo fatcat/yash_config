@@ -1,0 +1,6 @@
+---
+:config_file: types_integer.yaml
+:zero: 0
+:positive: 42
+:negative: -17
+:large: 1000000

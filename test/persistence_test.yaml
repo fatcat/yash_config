@@ -1,0 +1,6 @@
+---
+:config_file: persistence_test.yaml
+:string_val: persisted string
+:int_val: 123
+:bool_val: true
+:new_param: added later

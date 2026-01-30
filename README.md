@@ -62,10 +62,10 @@ The resulting YAML file looks like this:
 ### Other methods
 
 ```ruby
-YashConfig.delete(key)
-YashConfig.each
-YashConfig.clear_configuration
-YashConfig.to_h
+config.delete(key)
+config.each { |key, value| puts "#{key} => #{value}" }
+config.clear_configuration
+config.to_h
 ```
 
 

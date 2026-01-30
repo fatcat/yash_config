@@ -1,0 +1,6 @@
+---
+:config_file: types_string.yaml
+:empty_string: ''
+:simple_string: hello
+:string_with_spaces: hello world
+:string_with_special: 'special: chars! @#$%'

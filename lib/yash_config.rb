@@ -71,13 +71,21 @@ private
 	end
 
 	def write_config
-		File.delete(@config[:config_file])
-		config_s = YAML::Store.new(@config[:config_file])
-		@config.each do |key, val|
-			config_s.transaction do
-      	config_s[key] = val
-				config_s.commit
-      end  
+		begin
+			File.delete(@config[:config_file]) if File.exist?(@config[:config_file])
+			config_s = YAML::Store.new(@config[:config_file])
+			@config.each do |key, val|
+				config_s.transaction do
+					config_s[key] = val
+					config_s.commit
+				end
+			end
+		rescue Errno::EACCES
+			puts "Cannot write to file: \"#{@config[:config_file]}\", no permission"
+			raise Errno::EACCES
+		rescue Errno::ENOSPC
+			puts "Cannot write to file: \"#{@config[:config_file]}\", disk full"
+			raise Errno::ENOSPC
 		end
 	end
 
@@ -99,24 +107,30 @@ private
 
 	def create_config_file
 		dir = File.dirname(@config[:config_file])
-		begin	
-			if !File.directory?(dir) 
+		begin
+			if !File.directory?(dir)
 				create_config_file_path(dir)
 			end
 			File.new(@config[:config_file], "w")
 		rescue Errno::EACCES
 			puts "Cannot create file: \"#{@config[:config_file]}\", no permission"
 			raise Errno::EACCES
+		rescue Errno::ENOSPC
+			puts "Cannot create file: \"#{@config[:config_file]}\", disk full"
+			raise Errno::ENOSPC
 		end
 	end
 
 	def sanity_check(options)
 		if !options.instance_of?(Hash)
 			raise "Options must be a Hash object"
-		elsif options[:config_file] == nil
-			raise "Configuration filename must be supplied: Configuration.new({:config_file => \"path/to/file\"})"
-		elsif !File.writable?(options[:config_file])
+		elsif !options[:config_file].instance_of?(String) || options[:config_file].empty?
+			raise "Configuration filename must be a non-empty string: Configuration.new({:config_file => \"path/to/file\"})"
+		elsif File.exist?(options[:config_file]) && !File.writable?(options[:config_file])
 			puts "Configuration file is not writable"
+			raise Errno::EACCES
+		elsif !File.exist?(options[:config_file]) && !writable_parent_directory?(options[:config_file])
+			puts "Configuration file directory is not writable"
 			raise Errno::EACCES
 		elsif Gem.win_platform?
 			raise "This library is not tested on Windows and probably won't work"
@@ -125,5 +139,13 @@ private
 		else
 			true
 		end
+	end
+
+	def writable_parent_directory?(filepath)
+		dir = File.dirname(filepath)
+		while !File.exist?(dir) && dir != '/'
+			dir = File.dirname(dir)
+		end
+		File.writable?(dir)
 	end
 end
